@@ -23,12 +23,12 @@ def main():
     print(inputs['Gender'])
     print(targets)
     ###spliting the data
-    x_train,x_test,y_train,y_tes=train_test_split(inputs,targets,test_size=0.2,random_state=0)
-
+    x_train,x_test,y_train,y_test=train_test_split(inputs,targets,test_size=0.2,random_state=0)
+    ########### x is the input for training and testing and y is the output for training and testing
     #### Feature Scaling
     sc=StandardScaler()
-    x_train=sc.fit_transform(x_train)
-    x_test=sc.transform(x_test)
+    x_train=sc.fit_transform(x_train) # fitting and transforming the inputs for training
+    x_test=sc.transform(x_test)   # transofrming the inputs for testing
 
 
 
