@@ -19,11 +19,15 @@ def main():
 
     targets=dataset.iloc[:,-1].values # get the targets
     countries = pd.get_dummies(inputs['Geography'], drop_first=True) # dummies
-    inputs['Geography']=countries # add the dummies
+    Spain=countries['Spain'] # add the dummies
+    Germany=countries['Germany'] # add the dummies
     inputs=inputs.iloc[:,3:13] # discard useless data
     inputs['Gender'] = inputs['Gender'].map({'Male': 0, 'Female': 1}) #handling the Gender
-    print(inputs['Gender'])
-    print(targets)
+    inputs=inputs.drop(['Geography'],axis=1)
+    inputs=pd.concat([inputs,Spain,Germany],axis=1)
+    print(inputs.head())
+
+
     ###spliting the data
     x_train,x_test,y_train,y_test=train_test_split(inputs,targets,test_size=0.2,random_state=0)
     ########### x is the input for training and testing and y is the output for training and testing
@@ -48,7 +52,6 @@ def main():
 
     batch_size = 10
     max_epochs = 100
-    early_stopping=tf.keras.callbacks.EarlyStopping(patience=2)
     model.fit(x_train,y_train,batch_size=batch_size,epochs=max_epochs)
     # we got to 86% accuracy
 
@@ -66,6 +69,15 @@ def main():
     #### another way to test the model
     #test_loss, test_accuracy = model.evaluate(x_test, y_test)
     #print(f'test loss {test_loss}  test accuracy {test_accuracy}')
+
+
+    ### predicting a single new observation
+    single=np.array([[600,1,40,3,60000,2,1,1,50000,0.0,0]])
+    single=sc.transform(single)
+    new_prediction=model.predict(single)
+    print(f" the chances that he will leave the bank are: {float(new_prediction)}")
+    print(new_prediction>0.5)
+
 
 
 
