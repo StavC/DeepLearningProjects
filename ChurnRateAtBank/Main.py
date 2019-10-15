@@ -124,9 +124,10 @@ def main():
         model.compile(optimizer=optimizer, loss='binary_crossentropy', metrics=['accuracy'])
         return model
 
+
     model2=tf.keras.wrappers.scikit_learn.KerasClassifier(build_fn=build_model2)
 
-    parameters={'batch_size': [32,40],'epochs':[500,600],'optimizer': ['adam'] }# parametrs that i want to test
+    parameters={'batch_size': [25,40],'epochs':[100,500],'optimizer': ['adam','rmsprop'] }# parametrs that i want to test
     grid_search=GridSearchCV(estimator=model2,param_grid=parameters,scoring='accuracy',cv=5)
     grid_search=grid_search.fit(x_train,y_train)
     best_parameters=grid_search.best_params_
