@@ -5,6 +5,7 @@ from sklearn.preprocessing import  LabelEncoder,OneHotEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 import tensorflow as tf
+from sklearn.metrics import confusion_matrix
 
 
 
@@ -42,6 +43,32 @@ def main():
 
     #### compiling the ANN
     model.compile(optimizer='adam',loss='binary_crossentropy',metrics=['accuracy'])
+
+    #### fit the ANN to the training set
+
+    batch_size = 10
+    max_epochs = 100
+    early_stopping=tf.keras.callbacks.EarlyStopping(patience=2)
+    model.fit(x_train,y_train,batch_size=batch_size,epochs=max_epochs)
+    # we got to 86% accuracy
+
+    #### predicting
+    prediction=model.predict(x_test)
+    prediction=(prediction > 0.5)
+
+    #### making the Confusion Martix
+
+    cm=confusion_matrix(y_test,prediction)
+    print(cm)
+
+    print(f" the accuracy is:  {(cm[0][0]+cm[1][1])/cm.sum()}") ## printing accuracy by the CM
+
+    #### another way to test the model
+    #test_loss, test_accuracy = model.evaluate(x_test, y_test)
+    #print(f'test loss {test_loss}  test accuracy {test_accuracy}')
+
+
+
 
 
 
