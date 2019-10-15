@@ -126,14 +126,14 @@ def main():
 
     model2=tf.keras.wrappers.scikit_learn.KerasClassifier(build_fn=build_model2)
 
-    parameters={'batch_size': [20,32],'epochs':[50,500],'optimizer': ['adam','rmsprop'] }# parametrs that i want to test
+    parameters={'batch_size': [32,40],'epochs':[500,600],'optimizer': ['adam'] }# parametrs that i want to test
     grid_search=GridSearchCV(estimator=model2,param_grid=parameters,scoring='accuracy',cv=5)
     grid_search=grid_search.fit(x_train,y_train)
     best_parameters=grid_search.best_params_
     best_accuracy=grid_search.best_score_
 
-    print(f"  best accuracy: {best_accuracy}")
-    print(f" best params: {best_parameters}")
+    print(f"  best accuracy: {best_accuracy}") #0.859125%
+    print(f" best params: {best_parameters}") # batch size 32,epochs 500,optimizer adam
 
 
 
