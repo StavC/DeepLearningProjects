@@ -84,6 +84,7 @@ def main():
     print(f" the chances that he will leave the bank are: {float(new_prediction)}")
     print(new_prediction > 0.5)
 
+
     #### Evaluting the ANN with K-Fold
 
     batch_size = 10
