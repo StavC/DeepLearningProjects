@@ -24,16 +24,16 @@ def main():
 
         model.add(tf.keras.layers.Dense(units=output_size, kernel_initializer='glorot_uniform',
                                         activation='sigmoid'))  # sigmoid is good for 1 if there will be more than two categorize will choose softmax as activation
-
         #### compiling the ANN
         model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
         return model
 
+
+    #Handling the Data
     pd.options.display.max_rows = None
     pd.options.display.max_columns = None
     dataset = pd.read_csv('BankDataSet.csv')
     inputs = dataset.copy()
-
     targets = dataset.iloc[:, -1].values  # get the targets
     countries = pd.get_dummies(inputs['Geography'], drop_first=True)  # dummies
     Spain = countries['Spain']  # add the dummies
@@ -55,7 +55,6 @@ def main():
 
     ### build the ANN
     model = build_model()
-
 
     #### fit the ANN to the training set
 
@@ -79,7 +78,7 @@ def main():
     # print(f'test loss {test_loss}  test accuracy {test_accuracy}')
 
     ### predicting a single new observation
-    single = np.array([[600, 1, 40, 3, 60000, 2, 1, 1, 50000, 0.0, 0]])
+    single = np.array([[600, 1, 40, 3, 60000, 2, 1, 1, 50000, 0.0, 0]]) ##already has the dummies vars inside
     single = sc.transform(single)
     new_prediction = model.predict(single)
     print(f" the chances that he will leave the bank are: {float(new_prediction)}")
@@ -105,6 +104,8 @@ def main():
 
 
     ############ improving the Model even more with buildmodel2 and model2
+    ############ checking which parameters  are best suited for the task: Batch Size 32,Epochs 500, Optimizer Adam
+    ############ Accuracy 0.859125%
 
     def build_model2(optimizer):
         #### Make the ANN
@@ -135,14 +136,6 @@ def main():
 
     print(f"  best accuracy: {best_accuracy}") #0.859125%
     print(f" best params: {best_parameters}") # batch size 32,epochs 500,optimizer adam
-
-
-
-
-
-
-
-
 
 
 
