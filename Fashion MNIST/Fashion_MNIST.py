@@ -70,5 +70,20 @@ def main():
 
     model.fit(train_dataset, epochs=5, steps_per_epoch=math.ceil(num_train_examples / BATCH_SIZE))
 
+    test_loss, test_accuracy = model.evaluate(test_dataset, steps=math.ceil(num_test_examples / BATCH_SIZE))
+    print('Accuracy on test dataset:', test_accuracy)
+
+
+
+
+
+
+
+
+
+
+
+
+
 if __name__ == '__main__':
      main()
