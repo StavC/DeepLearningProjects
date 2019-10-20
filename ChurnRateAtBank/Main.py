@@ -60,6 +60,10 @@ def main():
 
     batch_size = 10
     max_epochs = 50
+    print(type(x_train)) # <class 'numpy.ndarray'>
+
+    print(type(y_train))#<class 'numpy.ndarray'>
+
     model.fit(x_train, y_train, batch_size=batch_size, epochs=max_epochs)
 
     #### predicting
