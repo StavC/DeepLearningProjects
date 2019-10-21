@@ -75,9 +75,15 @@ def main():
 
 
 
+    #### Make Predictions
 
-
-
+    for test_images, test_labels in test_dataset.take(1):
+        test_images = test_images.numpy()
+        test_labels = test_labels.numpy()
+        predictions = model.predict(test_images)
+    print(predictions.shape) # 32 items that has 10 options
+    print(predictions[0]) # the 10 options of the first item
+    print(f" the model predictied: {np.argmax(predictions[0])} and the the real label is : {test_labels[0]})
 
 
 
