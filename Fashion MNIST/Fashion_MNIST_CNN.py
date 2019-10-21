@@ -56,9 +56,14 @@ def main():
     #### Build the Model
 
     model = tf.keras.Sequential([
-        tf.keras.layers.Flatten(input_shape=(28, 28, 1)),#This layer transforms the images from a 2d-array of 28  ×  28 pixels, to a 1d-array of 784 pixels (28*28). Think of this layer as unstacking rows of pixels in the image and lining them up
-        tf.keras.layers.Dense(128, activation='relu'),#A densely connected layer of 128 neurons
-        tf.keras.layers.Dense(10, activation='softmax')#output tf.keras.layers.Dense — A 10-node softmax layer, with each node representing a class of clothing.
+        tf.keras.layers.Conv2D(32, (3, 3), padding='same', activation=tf.nn.relu,
+                               input_shape=(28, 28, 1)),
+        tf.keras.layers.MaxPooling2D((2, 2), strides=2),
+        tf.keras.layers.Conv2D(64, (3, 3), padding='same', activation=tf.nn.relu),
+        tf.keras.layers.MaxPooling2D((2, 2), strides=2),
+        tf.keras.layers.Flatten(),
+        tf.keras.layers.Dense(128, activation=tf.nn.relu),
+        tf.keras.layers.Dense(10, activation=tf.nn.softmax)
     ])
     model.compile(optimizer='adam',
                   loss='sparse_categorical_crossentropy',
@@ -83,7 +88,7 @@ def main():
         predictions = model.predict(test_images)
     print(predictions.shape) # 32 items that has 10 options
     print(predictions[0]) # the 10 options of the first item
-    print(f" the model predictied: {np.argmax(predictions[0])} and the the real label is : {test_labels[0]}")
+    print(f" the model predictied: {np.argmax(predictions[0])} and the the real label is : {test_labels[0]} ")
 
 
 
