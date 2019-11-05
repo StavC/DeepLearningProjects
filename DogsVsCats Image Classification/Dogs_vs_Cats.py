@@ -120,13 +120,15 @@ def main():
         validation_steps=int(np.ceil(total_val / float(BATCH_SIZE)))
     )
 
-    acc = history.history['accuracy']
-    val_acc = history.history['val_accuracy']
+    history_dict = history.history
+    print(history_dict.keys())
 
-    loss = history.history['loss']
-    val_loss = history.history['val_loss']
+    acc = history_dict['acc']
+    val_acc = history_dict['val_acc']
+    loss = history_dict['loss']
+    val_loss = history_dict['val_loss']
 
-    epochs_range = range(EPOCHS)
+    epochs_range = range(epochs)
 
     plt.figure(figsize=(8, 8))
     plt.subplot(1, 2, 1)
@@ -140,7 +142,6 @@ def main():
     plt.plot(epochs_range, val_loss, label='Validation Loss')
     plt.legend(loc='upper right')
     plt.title('Training and Validation Loss')
-    plt.savefig('./foo.png')
     plt.show()
 
 
