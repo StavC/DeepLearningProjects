@@ -44,14 +44,24 @@ def main():
     BATCH_SIZE = 100  # Number of training examples to process before updating our models variables
     IMG_SHAPE = 150  # Our training data consists of images with width of 150 pixels and height of 150 pixels
 
-    train_image_generator = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1. / 255)  # Generator for our training data
     validation_image_generator = tf.keras.preprocessing.image.ImageDataGenerator(rescale=1. / 255)  # Generator for our validation data
 
-    train_data_gen = train_image_generator.flow_from_directory(batch_size=BATCH_SIZE,
-                                                               directory=train_dir,
-                                                               shuffle=True,
-                                                               target_size=(IMG_SHAPE, IMG_SHAPE),  #  rescaling to (150,150)
-                                                               class_mode='binary')# because we have only dogs vs cats
+    #### Data Augmentation
+    image_gen_train = tf.keras.preprocessing.image.ImageDataGenerator(
+        rescale=1. / 255,
+        rotation_range=40,
+        width_shift_range=0.2,
+        height_shift_range=0.2,
+        shear_range=0.2,
+        zoom_range=0.2,
+        horizontal_flip=True,
+        fill_mode='nearest')
+
+    train_data_gen = image_gen_train.flow_from_directory(batch_size=BATCH_SIZE,
+                                                         directory=train_dir,
+                                                         shuffle=True,
+                                                         target_size=(IMG_SHAPE, IMG_SHAPE),
+                                                         class_mode='binary')# because we have only dogs vs cats
 
     val_data_gen = validation_image_generator.flow_from_directory(batch_size=BATCH_SIZE,
                                                                   directory=validation_dir,
