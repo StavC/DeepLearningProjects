@@ -81,8 +81,8 @@ def main():
         plt.tight_layout()
         plt.show()
 
-    plotImages(sample_training_images[:5])  # Plot images 0-4
-
+    augmented_images = [train_data_gen[0][0][0] for i in range(5)]
+    plotImages(augmented_images)
 
 
     #### MODEL CREATION
@@ -100,6 +100,7 @@ def main():
         tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
         tf.keras.layers.MaxPooling2D(2, 2),
 
+        tf.keras.layers.Dropout(0.5),# DropOut to randomally turn off neruons
         tf.keras.layers.Flatten(),
         tf.keras.layers.Dense(512, activation='relu'),
         tf.keras.layers.Dense(2, activation='softmax')
@@ -110,7 +111,7 @@ def main():
                   metrics=['accuracy'])
     print(model.summary())
 
-    EPOCHS = 20
+    EPOCHS = 100
     history = model.fit_generator(
         train_data_gen,
         steps_per_epoch=int(np.ceil(total_train / float(BATCH_SIZE))),
