@@ -50,10 +50,10 @@ def main():
     image_gen_train = tf.keras.preprocessing.image.ImageDataGenerator(
         rescale=1. / 255,
         rotation_range=40,
-        width_shift_range=0.2,
-        height_shift_range=0.2,
-        shear_range=0.2,
-        zoom_range=0.2,
+        width_shift_range=0.25,
+        height_shift_range=0.25,
+        shear_range=0.25,
+        zoom_range=0.25,
         horizontal_flip=True,
         fill_mode='nearest')
 
@@ -100,7 +100,7 @@ def main():
         tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
         tf.keras.layers.MaxPooling2D(2, 2),
 
-        tf.keras.layers.Dropout(0.5),# DropOut to randomally turn off neruons
+        tf.keras.layers.Dropout(0.4),# DropOut to randomally turn off neruons
         tf.keras.layers.Flatten(),
         tf.keras.layers.Dense(512, activation='relu'),
         tf.keras.layers.Dense(2, activation='softmax')
@@ -111,7 +111,7 @@ def main():
                   metrics=['accuracy'])
     print(model.summary())
 
-    EPOCHS = 100
+    EPOCHS = 20
     history = model.fit_generator(
         train_data_gen,
         steps_per_epoch=int(np.ceil(total_train / float(BATCH_SIZE))),
